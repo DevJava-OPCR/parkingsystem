@@ -10,12 +10,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+/**
+ * A class responsible for ticket data
+ */
 public class TicketDAO {
 
     private static final Logger logger = LogManager.getLogger(TicketDAO.class);
-
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /**
+     * A function responsible for recording a new ticket for incoming vehicle
+     * @param ticket the ticket containing inTime, outTime, vehicle, recurrence and price data
+     * @return true if the ticket is saved with success
+     */
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         PreparedStatement ps = null;
@@ -38,6 +45,11 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * A function responsible for getting a ticket for a recurrent vehicle
+     * @param vehicleRegNumber the vehicle registration number
+     * @return a ticket associated with this vehicle registration number
+     */
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -70,6 +82,11 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * A function responsible for getting the last ticket data for a recurrent vehicle
+     * @param vehicleRegNumber the vehicle registration number
+     * @return the last ticket recording for this recurrent vehicle
+     */
     public Ticket getLastTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -103,6 +120,11 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * A function responsible for updating ticket data for a recurrent vehicle
+     * @param ticket the ticket of the vehicle
+     * @return true if the ticket data is updated
+     */
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;

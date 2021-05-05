@@ -14,10 +14,17 @@ import java.util.Map;
 import static com.parkit.parkingsystem.constants.ParkingType.BIKE;
 import static com.parkit.parkingsystem.constants.ParkingType.CAR;
 
+/**
+ * A class responsible for counting ticket price
+ */
 public class FareCalculatorService {
 
     private static final Logger logger = LogManager.getLogger(FareCalculatorService.class);
 
+    /**
+     * A method responsible for counting ticket price without reduction
+     * @param ticket the ticket used to calculate the price
+     */
     public void calculateFare(Ticket ticket){
         if( (ticket.getOutTime() != null) && (ticket.getOutTime().before(ticket.getInTime()))){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
@@ -31,6 +38,10 @@ public class FareCalculatorService {
         }
     }
 
+    /**
+     * A method responsible for applying reduction of ticket price
+     * @param ticket the ticket used to apply the reduction on price
+     */
     public void applyReduction(Ticket ticket){
         if( (ticket.getOutTime() != null) && (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
@@ -42,7 +53,10 @@ public class FareCalculatorService {
         }
     }
 
-
+    /**
+     * A method responsible for applying 30 free minutes reduction
+     * @param ticket the ticket used to calculate the 30 free minutes reduction
+     */
     public void apply30FreeMinutesReduction(Ticket ticket){
         if( (ticket.getOutTime() != null) && (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
@@ -56,6 +70,10 @@ public class FareCalculatorService {
         }
     }
 
+    /**
+     * A method responsible for applying recurrent user reduction
+     * @param ticket  the ticket used to calculate the recurrent user reduction
+     */
     public void applyRecurrentUserReduction(Ticket ticket){
         if( (ticket.getOutTime() != null) && (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
@@ -65,6 +83,11 @@ public class FareCalculatorService {
         ticket.setPrice(Math.round((ticket.getPrice())*100)/100.0);
     }
 
+    /**
+     * A method responsible for counting ticket duration
+     * @param ticket the ticket used to calculate the duration
+     * @return the duration in hours
+     */
     public double calculateDuration(Ticket ticket) {
         Calendar inCalendar = Calendar.getInstance();
         Calendar outCalendar = Calendar.getInstance();
@@ -79,6 +102,11 @@ public class FareCalculatorService {
                 durationHour  + (double)(outCalendar.get(Calendar.MINUTE) - inCalendar.get(Calendar.MINUTE))/60;
     }
 
+    /**
+     * A method responsible for getting rate for counting ticket price
+     * @param type the type of parking used by the vehicle
+     * @return the rate associated with this type of parking
+     */
     private double getRate(ParkingType type) {
         Map<ParkingType, Double> rates =  new HashMap<ParkingType, Double>();
         rates.put(CAR, Fare.CAR_RATE_PER_HOUR);

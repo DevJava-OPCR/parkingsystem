@@ -6,24 +6,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * A class responsible for preparing test DataBase
+ */
 public class DataBasePrepareService {
 
     DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 
+    /**
+     * A function responsible for removing the test DataBase entries in order to launch tests
+     */
     public void clearDataBaseEntries(){
         Connection connection = null;
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
         try {
             connection = dataBaseTestConfig.getConnection();
-
-            //set parking entries to available
             ps1 = connection.prepareStatement("update parking set available = true");
             ps1.execute();
-            //clear ticket entries;
             ps2 = connection.prepareStatement("truncate table ticket");
             ps2.execute();
-
         } catch(SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -32,6 +34,5 @@ public class DataBasePrepareService {
             dataBaseTestConfig.closeConnection(connection);
         }
     }
-
 
 }

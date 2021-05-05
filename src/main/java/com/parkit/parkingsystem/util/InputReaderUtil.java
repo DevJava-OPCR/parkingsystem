@@ -5,6 +5,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
+/**
+ * A class responsible for reading input written by the user using park'it
+ */
 public class InputReaderUtil {
 
     private static final Scanner scan = new Scanner(System.in, "UTF-8");

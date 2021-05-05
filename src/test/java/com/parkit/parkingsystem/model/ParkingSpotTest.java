@@ -7,6 +7,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * A class responsible for testing the ParkingSpot methods
+ */
 @ExtendWith(MockitoExtension.class)
 public class ParkingSpotTest {
 

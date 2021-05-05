@@ -16,16 +16,16 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * A class responsible for testing the ParkingService methods
+ */
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
-
-
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -67,7 +67,7 @@ public class ParkingServiceTest {
     public void getNextCarParkingNumberTest() {
         ParkingType parkingType = ParkingType.CAR;
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(parkingSpotDAO.getNextAvailableSlot(parkingType)).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSpot(parkingType)).thenReturn(1);
         assertEquals( new ParkingSpot(1,parkingType, true), parkingService.getNextParkingNumberIfAvailable());
     }
 
@@ -75,7 +75,7 @@ public class ParkingServiceTest {
     public void getNextBikeParkingNumberTest() {
         ParkingType parkingType = ParkingType.BIKE;
         when(inputReaderUtil.readSelection()).thenReturn(2);
-        when(parkingSpotDAO.getNextAvailableSlot(parkingType)).thenReturn(5);
+        when(parkingSpotDAO.getNextAvailableSpot(parkingType)).thenReturn(5);
         assertEquals( new ParkingSpot(5,parkingType, true), parkingService.getNextParkingNumberIfAvailable());
     }
 
@@ -83,7 +83,7 @@ public class ParkingServiceTest {
     public void getNextCarParkingNumberParkingIsFullTest() {
         ParkingType parkingType = ParkingType.CAR;
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(parkingSpotDAO.getNextAvailableSlot(parkingType)).thenReturn(0);
+        when(parkingSpotDAO.getNextAvailableSpot(parkingType)).thenReturn(0);
         assertThrows(Exception.class, (Executable) parkingService.getNextParkingNumberIfAvailable());
     }
 
@@ -91,7 +91,7 @@ public class ParkingServiceTest {
     public void getNextBikeParkingNumberFullParkingTest() {
         ParkingType parkingType = ParkingType.BIKE;
         when(inputReaderUtil.readSelection()).thenReturn(2);
-        when(parkingSpotDAO.getNextAvailableSlot(parkingType)).thenReturn(0);
+        when(parkingSpotDAO.getNextAvailableSpot(parkingType)).thenReturn(0);
         assertThrows(Exception.class, (Executable) parkingService.getNextParkingNumberIfAvailable());
     }
 
