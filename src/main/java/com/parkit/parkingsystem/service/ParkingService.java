@@ -12,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+/**
+ * A class responsible for parking vehicle
+ */
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger(ParkingService.class);
@@ -28,6 +31,9 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+    /**
+     * A method responsible for processing an incoming vehicle
+     */
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -55,26 +61,33 @@ public class ParkingService {
         }
     }
 
+    /**
+     * A method responsible for getting the next parking slot available
+     * @return the number of the next parking slot
+     */
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
         ParkingSpot parkingSpot = null;
         try{
             ParkingType parkingType = getVehicleType();
-            parkingNumber = parkingSpotDAO.getNextAvailableSlot(parkingType);
+            parkingNumber = parkingSpotDAO.getNextAvailableSpot(parkingType);
             if(parkingNumber > 0){
                 parkingSpot = new ParkingSpot(parkingNumber,parkingType, true);
             }else{
-                System.out.println("Error fetching parking number from DB. Parking slots might be full");
-                throw new Exception("Error fetching parking number from DB. Parking slots might be full");
+                System.out.println("Error fetching parking number from DB. Parking spots might be full");
+                throw new Exception("Error fetching parking number from DB. Parking spots might be full");
             }
         }catch(IllegalArgumentException ie){
             logger.error("Error parsing user input for type of vehicle", ie);
         }catch(Exception e){
-            logger.error("Error fetching next available parking slot", e);
+            logger.error("Error fetching next available parking spot", e);
         }
         return parkingSpot;
     }
 
+    /**
+     * A method responsible for processing vehicle exiting
+     */
     public void processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehicleRegNumber();
@@ -98,6 +111,12 @@ public class ParkingService {
         }
     }
 
+    /**
+     * A method responsible for processing vehicle incoming
+     * @param ticket the ticket containing inTime, outTime, vehicle number, recurrence and price data
+     * @param parkingSpot the number of the parkingSpot used by the new vehicle
+     * @param isRecurrent which is true for a recurrent user
+     */
     private void saveIncomingVehicule(Ticket ticket, ParkingSpot parkingSpot, boolean isRecurrent) {
         ticket.setIsRecurrent(isRecurrent);
         ticketDAO.saveTicket(ticket);
@@ -109,11 +128,20 @@ public class ParkingService {
         System.out.println("Recorded in-time for vehicle number:"+ticket.getVehicleRegNumber()+" is:"+ticket.getInTime());
     }
 
+    /**
+     * A method responsible for getting vehicle registration number
+     * @return the number of the vehicle registration number written by the user
+     * @throws Exception
+     */
     private String getVehicleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /**
+     * A method responsible for getting vehicle type
+     * @return the number of the vehicle type written by the user
+     */
     private ParkingType getVehicleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");

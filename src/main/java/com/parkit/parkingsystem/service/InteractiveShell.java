@@ -6,6 +6,9 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * A class responsible for providing an interactive shell to process incoming and exiting vehicle
+ */
 public class InteractiveShell {
 
     private static final Logger logger = LogManager.getLogger("InteractiveShell");

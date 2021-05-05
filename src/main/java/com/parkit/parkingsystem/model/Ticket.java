@@ -12,7 +12,8 @@ public class Ticket {
     private ParkingSpot parkingSpot;
     private String vehicleRegNumber;
     private double price;
-
+    private Boolean isRecurrent;
+    private Boolean lastUpdated;
     private Timestamp inTime;
     private Timestamp outTime;
 
@@ -50,7 +51,5 @@ public class Ticket {
     }
 
 
-    private Boolean isRecurrent;
-    private Boolean lastUpdated;
 
 }

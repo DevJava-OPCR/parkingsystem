@@ -12,12 +12,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * A class responsible for parking availability
+ */
 public class ParkingSpotDAO {
-    private static final Logger logger = LogManager.getLogger(ParkingSpotDAO.class);
 
+    private static final Logger logger = LogManager.getLogger(ParkingSpotDAO.class);
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-    public int getNextAvailableSlot(ParkingType parkingType){
+    /**
+     * A method responsible for getting the next available spot of parking
+     * @param parkingType the type of parking used by the vehicle
+     * @return the number of the next available spot of this type of parking
+     */
+    public int getNextAvailableSpot(ParkingType parkingType){
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -32,9 +40,9 @@ public class ParkingSpotDAO {
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
-            logger.info("Next available slot get.");
+            logger.info("Next available spot get.");
         } catch (SQLException | ClassNotFoundException ex){
-            logger.error("Error fetching next available slot",ex);
+            logger.error("Error fetching next available spot",ex);
         }finally {
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
@@ -43,6 +51,11 @@ public class ParkingSpotDAO {
         return result;
     }
 
+    /**
+     * A function responsible for updating parking availability
+     * @param parkingSpot the number of the parking spot
+     * @return true if the parkingSpot is updated
+     */
     public boolean updateParking(ParkingSpot parkingSpot){
         Connection con = null;
         PreparedStatement ps = null;

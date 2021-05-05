@@ -7,21 +7,19 @@ import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.apache.tomcat.jni.Time;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * A class reponsible for integration tests of park'it
+ */
 @SpringBootTest(classes=ParkingSpotDAO.class)
 @AutoConfigureMockMvc
 public class ParkingDataBaseIT {
@@ -49,6 +47,10 @@ public class ParkingDataBaseIT {
         dataBasePrepareService.clearDataBaseEntries();
     }
 
+    /**
+     * A function responsible for testing the process of incoming vehicle
+     * @throws Exception
+     */
     @Test
     public void testParkingACar() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(2);
@@ -63,6 +65,10 @@ public class ParkingDataBaseIT {
         assertFalse(ticketSavedInDB.getParkingSpot().isAvailable());
     }
 
+    /**
+     * A function responsible for testing the process of exiting vehicle
+     * @throws Exception
+     */
     @Test
     public void testCarExit() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(2);
